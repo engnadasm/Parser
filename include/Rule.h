@@ -21,14 +21,14 @@ class Rule
         void addFirst(set<string> f);
         void addFollow(set<string> f);
         string getName();
-        void addProduction(Rule r);
+        void addProduction(Rule* r);
 
 
     protected:
 
     private:
         bool terminal;
-        vector<Rule> productions;
+        vector<vector<Rule*>> productions;
         set<string> first;
         set<string> follow;
         bool nullable;

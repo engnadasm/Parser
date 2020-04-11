@@ -20,7 +20,7 @@ set<string> Rule::getFollow(){
 string Rule::getName(){
     return this->name;
 }
-void Rule::addProduction(Rule r){
+void Rule::addProduction(Rule* r){
     this->productions.push_back(r);
 }
 

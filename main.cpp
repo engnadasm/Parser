@@ -1,9 +1,11 @@
 #include <iostream>
+#include "GrammerParser.h"
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    GrammerParser gp("rules.txt");
+    gp.parseRules();
     return 0;
 }
