@@ -3,6 +3,7 @@
 Rule::Rule(string name)
 {
     this->name = name;
+    this->terminal = false;
 }
 
 bool Rule::isTerminal(){
@@ -20,8 +21,25 @@ set<string> Rule::getFollow(){
 string Rule::getName(){
     return this->name;
 }
-void Rule::addProduction(Rule* r){
+void Rule::addProduction(vector<Rule*> r){
+    /*cout << "adding production in rule "<<name <<":" ;
+    for(auto x: r){
+        cout << " " << x->getName();
+    }
+    cout << endl;*/
+
+
     this->productions.push_back(r);
+    //cout << "productions so far" << endl;
+    //printProductions(productions);
+}
+
+void Rule::setTerminal(){
+    terminal = true;
+}
+
+vector<vector<Rule*>> Rule::getProductions(){
+    return productions;
 }
 
 void Rule::addFirst(string f){

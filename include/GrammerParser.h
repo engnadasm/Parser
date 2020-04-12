@@ -2,6 +2,7 @@
 #define GRAMMERPARSER_H
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <iostream>
 #include <fstream>
 #include "Rule.h"
@@ -20,10 +21,12 @@ class GrammerParser
 
     private:
         string path;
-        vector<pair<string, vector<string>>> passOne;
+        unordered_map<string, vector<string>> passOne;
         void addRule(string r);
         vector<string> segmentation(string line);
         vector<Rule> rules;
+        unordered_map<string, int> indexes;
+        unordered_map<string, Rule*> terminals;
 };
 
 
@@ -45,5 +48,17 @@ static inline void rtrim(std::string &s) {
 static inline void trim(std::string &s) {
     ltrim(s);
     rtrim(s);
+}
+
+static inline void printRule(Rule r){
+    cout << r.getName() << endl;
+    vector<vector<Rule*>> p = r.getProductions();
+    for(int j = 0; j < p.size(); j++){
+        cout << "production " << j << " :";
+        for(int k = 0; k < p[j].size(); k++){
+            cout << " " <<p[j][k]->getName();
+        }
+        cout << endl;
+    }
 }
 #endif // GRAMMERPARSER_H
