@@ -24,6 +24,7 @@ class Rule
         void addFollow(set<string> f);
         string getName();
         void addProduction(vector<Rule*> r);
+        void clearProductions();
         vector<vector<Rule*>> getProductions();
         void setTerminal();
 
@@ -50,5 +51,7 @@ static inline void printProductions(vector<vector<Rule*>> p){
     }
     cout << endl;
 }
+
+
 
 #endif // RULE_H

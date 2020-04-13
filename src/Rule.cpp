@@ -6,6 +6,10 @@ Rule::Rule(string name)
     this->terminal = false;
 }
 
+void Rule::clearProductions(){
+    this->productions.clear();
+}
+
 bool Rule::isTerminal(){
     return this->terminal;
 }

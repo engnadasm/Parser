@@ -38,7 +38,7 @@ void GrammerParser::parseRules(){
                 } else {
                     vector<Rule*> temp(p.begin(), p.end());
                     int idx = indexes[x.first];
-                    rules[idx].addProduction(temp);
+                    rules[idx]->addProduction(temp);
                     p.clear();
                 }
             } else if (seg[0] == '\''){
@@ -71,14 +71,14 @@ void GrammerParser::parseRules(){
                 if(indexes.find(seg) == indexes.end()){
                     //error
                 } else {
-                     p.push_back(&rules[indexes[seg]]);
+                     p.push_back(rules[indexes[seg]]);
                 }
             }
         }
         if(!p.empty()){
             vector<Rule*> temp(p.begin(), p.end());
             int idx = indexes[x.first];
-            rules[idx].addProduction(temp);
+            rules[idx]->addProduction(temp);
             p.clear();
         }
         //printRule(rules[indexes.find(x.first)->second]);
@@ -136,13 +136,13 @@ void GrammerParser::addRule(string r){
         passOne[segs[0]].insert(passOne[segs[0]].end(), rhs.begin(), rhs.end());
     } else {
         passOne[segs[0]] = rhs;
-        Rule rule(segs[0]);
+        Rule* rule = new Rule(segs[0]);
         rules.push_back(rule);
         indexes.insert({segs[0], rules.size()-1});
     }
 
 }
 
-vector<Rule> GrammerParser::getRules(){
+vector<Rule*> GrammerParser::getRules(){
     return rules;
 }

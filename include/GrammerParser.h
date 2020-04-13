@@ -15,7 +15,7 @@ class GrammerParser
     public:
         GrammerParser(string inputFile);
         void parseRules();
-        vector<Rule> getRules();
+        vector<Rule*> getRules();
 
     protected:
 
@@ -24,7 +24,7 @@ class GrammerParser
         unordered_map<string, vector<string>> passOne;
         void addRule(string r);
         vector<string> segmentation(string line);
-        vector<Rule> rules;
+        vector<Rule*> rules;
         unordered_map<string, int> indexes;
         unordered_map<string, Rule*> terminals;
 };

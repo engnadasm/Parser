@@ -1,18 +1,27 @@
 #ifndef GRAMMEROPTIMIZER_H
 #define GRAMMEROPTIMIZER_H
+#include <vector>
+#include <string>
+#include <iostream>
+#include "Rule.h"
+
+using namespace std;
 
 
 class GrammerOptimizer
 {
     public:
-        GrammerOptimizer(set<Rule> grammer);
+        GrammerOptimizer(vector<Rule*> grammer);
         void RemoveLeftRecusion();
         void leftFactorisation();
-        set<Rule> getRules();
+        vector<Rule*> getRules();
 
     protected:
 
     private:
+        vector<Rule*> grammer;
+        void eliminateLeftImmidiateRecursion(Rule* r);
+        bool hasImmidiateLeftRecursion(Rule* r);
 };
 
 #endif // GRAMMEROPTIMIZER_H
