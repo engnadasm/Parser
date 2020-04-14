@@ -1,6 +1,6 @@
 #include <iostream>
-#include "GrammerParser.h"
-#include "GrammerOptimizer.h"
+#include "../include/GrammerParser.h"
+#include "../include/GrammerOptimizer.h"
 
 using namespace std;
 

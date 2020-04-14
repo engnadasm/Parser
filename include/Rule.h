@@ -16,9 +16,8 @@ class Rule
         Rule(string name);
         bool isTerminal();
         bool isNullable();
-        set<string> getFirst();
+        vector<set<string>> getFirst();
         set<string> getFollow();
-        void addFirst(string f);
         void addFollow(string f);
         void addFirst(set<string> f);
         void addFollow(set<string> f);
@@ -27,17 +26,19 @@ class Rule
         void clearProductions();
         vector<vector<Rule*>> getProductions();
         void setTerminal();
-
+        bool firstComputed();
+        void markFirst();
 
     protected:
 
     private:
         bool terminal;
         vector<vector<Rule*>> productions;
-        set<string> first;
+        vector<set<string>>first;
         set<string> follow;
         bool nullable;
         string name;
+        bool calcFirst;
 
 };
 

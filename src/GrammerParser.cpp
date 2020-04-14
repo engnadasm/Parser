@@ -1,4 +1,4 @@
-#include "GrammerParser.h"
+#include "../include/GrammerParser.h"
 
 GrammerParser::GrammerParser(string inputFile)
 {

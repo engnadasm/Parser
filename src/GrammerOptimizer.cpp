@@ -1,4 +1,4 @@
-#include "GrammerOptimizer.h"
+#include "../include/GrammerOptimizer.h"
 
 GrammerOptimizer::GrammerOptimizer(vector<Rule*> grammer){
     this->grammer = grammer;
