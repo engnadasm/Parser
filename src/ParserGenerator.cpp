@@ -69,7 +69,7 @@ void ParserGenerator::printParsingTable(string outputFile)
 {
 
 }
-unordered_map<string,unordered_map<string, Rule*>>ParserGenerator::getParsingTable()
+unordered_map<string,unordered_map<string, vector<Rule*>>>ParserGenerator::getParsingTable()
 {
    return this->parsingTable;
 

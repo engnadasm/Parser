@@ -14,7 +14,7 @@ class ParserGenerator
         void generateParsingTable();
         void printParsingTable();
         void printParsingTable(string outputFile);
-        unordered_map<string,unordered_map<string, Rule*>>getParsingTable();
+        unordered_map<string,unordered_map<string, vector<Rule*>>>getParsingTable();
         // parse(next token)
 
     protected:
@@ -22,7 +22,7 @@ class ParserGenerator
     private:
         vector<Rule*> grammer;
         //string:nonTerminal , map:terminal, table entry = rule
-        unordered_map<string,unordered_map<string, Rule*>> parsingTable;
+        unordered_map<string,unordered_map<string, vector<Rule*>>> parsingTable;
 
         void calcFirst(Rule* lhs);
         void calcFollow();
