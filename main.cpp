@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    GrammerParser gp("rules.txt");
+    GrammerParser gp("r.txt");
     gp.parseRules();
     GrammerOptimizer go(gp.getRules());
     go.RemoveLeftRecusion();

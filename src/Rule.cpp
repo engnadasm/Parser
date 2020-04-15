@@ -24,6 +24,25 @@ void Rule::removeProduction(string name){
         }
     }
 }
+
+void Rule::removeRedundantNulls(){
+    auto it1 = productions.begin();
+    while(it1 != productions.end()){
+        if((*it1).size() == 1){
+            it1++;
+            continue;
+        }
+        auto it2 = (*it1).begin();
+        while(it2 != (*it1).end()){
+            if((*it2)->getName() == "\\L"){
+                it2 = (*it1).erase(it2);
+            } else {
+                it2++;
+            }
+        }
+        it1++;
+    }
+}
 bool Rule::isTerminal(){
     return this->terminal;
 }

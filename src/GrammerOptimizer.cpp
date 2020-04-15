@@ -87,8 +87,10 @@ void GrammerOptimizer::removeEmpty(){
             }
             it = grammer.erase(it);
         } else {
+            (*it)->removeRedundantNulls();
             ++it;
         }
+
     }
 }
 //{(abd), (a), (bda), (bdd), (da)}

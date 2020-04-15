@@ -27,6 +27,7 @@ class Rule
         vector<vector<Rule*>> getProductions();
         void setTerminal();
         void removeProduction(string name);
+        void removeRedundantNulls();
 
         bool firstComputed();
         void markFirst();
