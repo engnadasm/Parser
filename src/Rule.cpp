@@ -10,6 +10,20 @@ void Rule::clearProductions(){
     this->productions.clear();
 }
 
+void Rule::removeProduction(string name){
+    for(int i = 0; i < productions.size(); i++){
+        for(int j = 0; j < productions[i].size(); j++){
+            if(productions[i][j]->getName() == name){
+                productions[i].erase(productions[i].begin()+j);
+                if(productions[i].empty()){
+                    Rule* eps = new Rule("\\L");
+                    eps->setTerminal();
+                    productions[i].push_back(eps);
+                }
+            }
+        }
+    }
+}
 bool Rule::isTerminal(){
     return this->terminal;
 }

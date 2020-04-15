@@ -10,6 +10,7 @@ int main()
     gp.parseRules();
     GrammerOptimizer go(gp.getRules());
     go.RemoveLeftRecusion();
+    go.leftFactorisation();
     vector<Rule*> rules = go.getRules();
     for(int i = 0; i < rules.size(); i++){
         cout << i << ": " << rules[i]->getName() << " :" << endl;

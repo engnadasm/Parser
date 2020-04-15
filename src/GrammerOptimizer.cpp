@@ -29,7 +29,69 @@ void GrammerOptimizer::RemoveLeftRecusion(){
     }
 }
 void GrammerOptimizer::leftFactorisation(){
+    int len = grammer.size();
+    for(int i = 0; i < len; i++){
+        factorizeRule(grammer[i]);
+    }
+    removeEmpty();
 }
+
+void GrammerOptimizer::factorizeRule(Rule* r){
+    if(isEpsilon(r)) return;
+    vector<vector<Rule*>> p = r->getProductions();
+    vector<bool> removed;
+    removed.resize(p.size(), false);
+    r->clearProductions();
+    int counter = 1;
+    for(int i = 0; i < p.size(); i++){
+        if(removed[i]) continue;
+        if(isEpsilon(p[i])){
+            vector<Rule*> e;
+            Rule* ee = new Rule("\\L");
+            ee->setTerminal();
+            e.push_back(ee);
+            r->addProduction(e);
+            continue;
+        }
+        vector<Rule*> n;
+        n.push_back(p[i][0]);
+        Rule* B = new Rule(r->getName() + "_" + to_string(counter));
+        for(int j = 0; j < p.size(); j++){
+            if(removed[j]) continue;
+            if(p[i][0] != p[j][0]) continue;
+            vector<Rule*> x(p[j].begin()+1, p[j].end());
+            if(x.empty()){
+                Rule* eps = new Rule("\\L");
+                eps->setTerminal();
+                x.push_back(eps);
+            }
+            B->addProduction(x);
+            removed[j] = true;
+        }
+        n.push_back(B);
+        factorizeRule(B);
+        r->addProduction(n);
+        grammer.push_back(B);
+        counter++;
+    }
+}
+
+void GrammerOptimizer::removeEmpty(){
+    auto it = grammer.begin();
+    while(it != grammer.end()){
+        if(isEpsilon(*it)){
+            auto it2 = grammer.begin();
+            while(it2 != grammer.end()){
+                (*it2)->removeProduction((*it)->getName());
+                ++it2;
+            }
+            it = grammer.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+//{(abd), (a), (bda), (bdd), (da)}
 vector<Rule*> GrammerOptimizer::getRules(){
     return this->grammer;
 }
