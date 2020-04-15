@@ -23,11 +23,12 @@ class ParserGenerator
         vector<Rule*> grammer;
         //string:nonTerminal , map:terminal, table entry = rule
         unordered_map<string,unordered_map<string, vector<Rule*>>> parsingTable;
-
+        bool eps;
         void calcFirst(Rule* lhs);
         void calcFollow();
         void calcNullable();
         void addToTable();
+        set<string>checkEps(vector<set<string>> f , bool lastSymbol);
 };
 
 #endif // PARSERGENERATOR_H

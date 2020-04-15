@@ -46,8 +46,11 @@ void Rule::removeRedundantNulls(){
 bool Rule::isTerminal(){
     return this->terminal;
 }
-bool Rule::isNullable(){
+vector<bool> Rule::getNullable(){
     return this->nullable;
+}
+void Rule::addNullable(bool b){
+    nullable.push_back(b);
 }
 vector<set<string>>Rule::getFirst(){
     return this->first;

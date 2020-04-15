@@ -15,7 +15,8 @@ class Rule
     public:
         Rule(string name);
         bool isTerminal();
-        bool isNullable();
+        vector<bool> getNullable();
+        void addNullable(bool b);
         vector<set<string>> getFirst();
         set<string> getFollow();
         void addFollow(string f);
@@ -39,7 +40,7 @@ class Rule
         vector<vector<Rule*>> productions;
         vector<set<string>>first;
         set<string> follow;
-        bool nullable;
+        vector<bool> nullable;
         string name;
         bool calcFirst;
 
