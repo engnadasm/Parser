@@ -1,4 +1,4 @@
-#include "Rule.h"
+#include "../include/Rule.h"
 
 Rule::Rule(string name)
 {
@@ -30,7 +30,7 @@ bool Rule::isTerminal(){
 bool Rule::isNullable(){
     return this->nullable;
 }
-set<string> Rule::getFirst(){
+vector<set<string>>Rule::getFirst(){
     return this->first;
 }
 set<string> Rule::getFollow(){
@@ -59,16 +59,18 @@ void Rule::setTerminal(){
 vector<vector<Rule*>> Rule::getProductions(){
     return productions;
 }
-
-void Rule::addFirst(string f){
-    this->first.insert(f);
-}
 void Rule::addFollow(string f){
     this->follow.insert(f);
 }
 void Rule::addFirst(set<string> f){
-    first.insert(f.begin(), f.end());
+    first.push_back(f);
 }
 void Rule::addFollow(set<string> f){
     follow.insert(f.begin(), f.end());
+}
+bool Rule::firstComputed(){
+    return calcFirst;
+}
+void Rule::markFirst(){
+    calcFirst = true;
 }
