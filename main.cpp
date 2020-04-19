@@ -25,6 +25,7 @@ int main()
         }
        // cout << endl;
     }
+    cout<<"First"<<endl;
     ParserGenerator pg(go.getRules());
     pg.generateParsingTable();
     for(auto g : rules){
@@ -39,6 +40,14 @@ int main()
             cout << " ";
         }
     cout << endl;
+    }
+    cout<<"FOLLOW"<<endl;
+    for(Rule* g : rules){
+        cout<<"Follow("<<g->getName()<<") : "<<endl;
+        for(auto f : g->getFollow()){
+            cout<<" "<<f;
+        }
+        cout<<endl;
     }
     pg.printParsingTable("parsingTable.txt");
     return 0;

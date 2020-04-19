@@ -1,5 +1,6 @@
 #include "../include/ParserGenerator.h"
 #include <fstream>
+#include <iostream>
 ParserGenerator::ParserGenerator(vector<Rule*> grammer)
 {
     //ctor
@@ -14,6 +15,9 @@ void ParserGenerator::generateParsingTable()
        if(!lhs->firstComputed()){
         //cout <<"compute :" <<lhs->getName()<<"----------------------------" << endl;
             calcFirst(lhs);
+       }
+       if(!lhs->followComputed()){
+            calcFollow(lhs);
        }
     }
 //2-compute follow of all nonTerminals
@@ -99,7 +103,48 @@ set<string> ParserGenerator::checkEps(vector<set<string>> f , bool lastSymbol){
 
     return first;
 }
-void ParserGenerator::calcFollow(){
+void ParserGenerator::calcFollow(Rule* lhs)
+{
+    if(lhs == this->grammer.at(0)){
+        lhs->addFollow("$");
+    }
+    for(int i = 0; i < this->grammer.size(); i++){
+        vector<vector<Rule*>> productions = this->grammer.at(i)->getProductions();
+        for(int j = 0; j < productions.size(); j++){
+            vector<Rule*> prod = productions.at(j);
+            std::vector<Rule*>::iterator it = find(prod.begin(), prod.end(), lhs);
+            if(it != prod.end()){
+                if(distance(prod.begin(), it) == prod.size() - 1){
+                    if(!this->grammer.at(i)->followComputed() && !this->grammer.at(i)->checkVisited()){
+                        this->grammer.at(i)->markVisited();
+                        calcFollow(this->grammer.at(i));
+                    }
+                    lhs->addFollow(this->grammer.at(i)->getFollow());
+                }else{
+                    Rule* r = prod.at(distance(prod.begin(), it) + 1);
+                    if(r->isTerminal() && r->getName() != "\\L"){
+                        lhs->addFollow(r->getName());
+                    }else if(!r->isTerminal()){
+                        if(!r->firstComputed())
+                            calcFirst(r);
+                        for(int k = 0; k < r->getFirst().size(); k++){
+                            lhs->addFollow(r->getFirst().at(k));
+                        }
+                        vector<bool> nullable = r->getNullable();
+                        std::vector<bool>::iterator it = find(nullable.begin(), nullable.end(), true);
+                        if(it != nullable.end()){
+                            if(!this->grammer.at(i)->followComputed() && !this->grammer.at(i)->checkVisited()){
+                                this->grammer.at(i)->markVisited();
+                                calcFollow(this->grammer.at(i));
+                            }
+                            lhs->addFollow(this->grammer.at(i)->getFollow());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    lhs->markFollow();
 }
 void ParserGenerator::printParsingTable()
 {
@@ -140,20 +185,36 @@ void::ParserGenerator::addToTable(){
         vector<vector<Rule*>>::iterator pitr = productions.begin();
         vector<bool>nullable = g->getNullable();
         vector<bool>::iterator nitr = nullable.begin();
+        Rule* synch = new Rule("synch");
+        vector<Rule*> synchProd = {synch};
         //f = set<string>
         for(auto f : g->getFirst()){
             // t = string -> terminal name
             for(auto t : f){
                 if(t != "\\L"){
-                parsingTable[g->getName()][t]=*pitr;
+                    parsingTable[g->getName()][t] = *pitr;
                 }
             }
             if(*nitr == true){
-                //insert pitr under the follow set into the parsing table
+                for(string s : g->getFollow()){
+                    parsingTable[g->getName()][s] = *pitr;
+                }
             }
             pitr++;
             nitr++;
         }
-        //add sync to table
+        unordered_map<string,unordered_map<string, vector<Rule*>>>::iterator it = parsingTable.find(g->getName());
+        if(it != parsingTable.end()){
+            for(string s : g->getFollow()){
+                unordered_map<string, vector<Rule*>>::iterator it2 = it->second.find(s);
+                if(it2 == it->second.end()){
+                    parsingTable[g->getName()][s] = synchProd;
+                }
+            }
+        }else{
+            for(string s : g->getFollow()){
+                parsingTable[g->getName()][s] = synchProd;
+            }
+        }
     }
 }

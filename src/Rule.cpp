@@ -88,11 +88,26 @@ void Rule::addFirst(set<string> f){
     first.push_back(f);
 }
 void Rule::addFollow(set<string> f){
-    follow.insert(f.begin(), f.end());
+    for(string s: f){
+        if(s != "\\L")
+            follow.insert(s);
+    }
 }
 bool Rule::firstComputed(){
     return calcFirst;
 }
 void Rule::markFirst(){
     calcFirst = true;
+}
+bool Rule::followComputed(){
+    return calcFollow;
+}
+void Rule::markFollow(){
+    calcFollow = true;
+}
+bool Rule::checkVisited(){
+    return visited;
+}
+void Rule::markVisited(){
+    visited = true;
 }

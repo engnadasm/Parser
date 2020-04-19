@@ -32,6 +32,10 @@ class Rule
 
         bool firstComputed();
         void markFirst();
+        bool followComputed();
+        void markFollow();
+        bool checkVisited();
+        void markVisited();
 
     protected:
 
@@ -43,6 +47,8 @@ class Rule
         vector<bool> nullable;
         string name;
         bool calcFirst;
+        bool calcFollow;
+        bool visited;
 
 };
 
