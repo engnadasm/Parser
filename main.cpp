@@ -2,6 +2,8 @@
 #include "include/GrammerParser.h"
 #include "include/GrammerOptimizer.h"
 #include "include/ParserGenerator.h"
+#include "include/Derivation.h"
+
 using namespace std;
 
 int main()
@@ -50,5 +52,23 @@ int main()
         cout<<endl;
     }
     pg.printParsingTable("parsingTable.txt");
+
+    Derivation* der;
+    der = Derivation::GetInstance();
+    der->setParsingTable(pg.getParsingTable());
+    der->setStart(go.getRules()[0]);
+    string line;
+    ifstream file("C:\\Users\\lenovo\\Documents\\GitHub\\lex2\\lexical file.txt");
+    while(getline(file, line) &&  der->getAccept()){
+        trim(line);
+        if(line[0] != ','){
+            cout<< line << "\n";
+           der->enterToken(line);
+        }
+    }
+    file.close();
+    der->endDerivation();
+
+
     return 0;
 }

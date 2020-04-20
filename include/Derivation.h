@@ -16,7 +16,6 @@ class Derivation
     public:
         static Derivation* GetInstance();
         void generateDerivations();
-        void PrintDerivations();
         void enterToken(string token);
         void setParsingTable(unordered_map<string,unordered_map<string, vector<Rule*>>> parsingTable);
         void setStart(Rule* start);
@@ -27,8 +26,11 @@ class Derivation
 
     private:
         Derivation();
+        void PrintDerivations();
+        string PrintStack(stack<Rule*> s);
         static Derivation* derivationInstance;		// singleton instance
         queue<string> tokens;
+        string outToAdd = "";
         stack<Rule*> ourStack;
         vector<string> outToPrint;
         int currentPointer = 0;
